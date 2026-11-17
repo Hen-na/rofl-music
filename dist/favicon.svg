@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -16 264 264">
+  <defs>
+    <pattern id="p0" x="0" width="48" height="19" patternUnits="userSpaceOnUse"><rect width="48" height="12" rx="5" fill="#DD0E30"/></pattern>
+    <pattern id="p1" x="64" width="48" height="19" patternUnits="userSpaceOnUse"><rect width="48" height="12" rx="5" fill="#DD0E30"/></pattern>
+    <pattern id="p2" x="127" width="48" height="19" patternUnits="userSpaceOnUse"><rect width="48" height="12" rx="5" fill="#DD0E30"/></pattern>
+    <pattern id="p3" x="191" width="48" height="19" patternUnits="userSpaceOnUse"><rect width="48" height="12" rx="5" fill="#DD0E30"/></pattern>
+  </defs>
+  <rect width="264" height="264" x="-12" y="-16" rx="40" fill="#000"/>
+  <rect x="0" y="57" width="48" height="164" fill="url(#p0)"/>
+  <rect x="64" y="0" width="48" height="221" fill="url(#p1)"/>
+  <rect x="127" y="114" width="48" height="107" fill="url(#p2)"/>
+  <rect x="191" y="76" width="48" height="145" fill="url(#p3)"/>
+</svg>

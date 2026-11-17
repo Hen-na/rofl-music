@@ -1,0 +1,14 @@
+[      52ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8765/rofl-music/assets/index-CZCk73QL.css:1
+[      52ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8765/rofl-music/assets/index-DVwFGHWB.js:1
+[     331ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8765/rofl-music/favicon.svg:1
+[   13416ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8765/rofl-music/assets/index-CZCk73QL.css:1
+[   13417ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8765/rofl-music/assets/index-DVwFGHWB.js:1
+[   14854ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8765/rofl-music/assets/index-CZCk73QL.css:1
+[   14855ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8765/rofl-music/assets/index-DVwFGHWB.js:1
+[  274221ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8765/rofl-music/assets/logo-rfl-C037d7Mr.svg:1
+[  274684ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:5173/rofl-music/node_modules/.vite/deps/react-dom_client.js?v=051d5cf4:15802
+[  277332ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:5173/rofl-music/node_modules/.vite/deps/react-dom_client.js?v=051d5cf4:15802
+[  284117ms] [LOG] [vite] server connection lost. Polling for restart... @ http://127.0.0.1:5173/rofl-music/@vite/client:1078
+[ 1193859ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:5173/rofl-music/node_modules/.vite/deps/react-dom_client.js?v=a608a15a:15802
+[ 1210123ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:5173/rofl-music/node_modules/.vite/deps/react-dom_client.js?v=a608a15a:15802
+[ 1218848ms] [LOG] [vite] server connection lost. Polling for restart... @ http://127.0.0.1:5173/rofl-music/@vite/client:1078

@@ -69,11 +69,14 @@ export function LiveLogo({ signal, active = true, animate = true, className = ''
     let last = 0;
     let raf = 0;
 
-    const thump = () =>
-      svgRef.current?.animate(
+    let thumpAnimation: Animation | undefined;
+    const thump = () => {
+      thumpAnimation?.cancel();
+      thumpAnimation = svgRef.current?.animate(
         [{ transform: 'scale(1)' }, { transform: 'scale(1.035) rotate(-0.6deg)' }, { transform: 'scale(1)' }],
         { duration: 340, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
       );
+    };
 
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
@@ -90,8 +93,6 @@ export function LiveLogo({ signal, active = true, animate = true, className = ''
       }
 
       const energy = signal ? energyOf(signal, now) : 0;
-      const dropAge = signal ? (now - signal.dropAt) / 1000 : 99;
-      const drop = dropAge < 0.7 ? 1 - dropAge / 0.7 : 0;
       const party = isParty();
       const kick = Math.exp(-((t % BEAT_S) / BEAT_S) * 6);
 
@@ -105,7 +106,7 @@ export function LiveLogo({ signal, active = true, animate = true, className = ''
             0.5 + 0.28 * Math.sin(t * (2.3 + ci * 0.9) + ci * 1.7) + 0.16 * Math.sin(t * (5.1 - ci * 0.6) + ci);
           const near = signal?.inside ? clamp01(1 - Math.abs(signal.u * 4 - (ci + 0.5)) / 1.6) : 0;
           const live =
-            0.2 + groove * 0.45 + kick * 0.22 + energy * (0.3 + near * 0.6) + drop + (party ? 0.35 + kick * 0.5 : 0);
+            0.12 + groove * 0.45 + kick * 0.14 + Math.min(energy, 1) * (0.06 + near * 0.06) + (party ? 0.12 + kick * 0.08 : 0);
           const blend = clamp01((boot - 1) * 2.5);
           level = 1 - blend + live * blend;
         }
@@ -124,7 +125,10 @@ export function LiveLogo({ signal, active = true, animate = true, className = ''
     };
 
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      thumpAnimation?.cancel();
+    };
   }, [active, animate, signal]);
 
   return (

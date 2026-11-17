@@ -27,7 +27,10 @@
 
 .release__disc {
   position: absolute;
-  inset: 4%;
+  top: 4%;
+  left: 4%;
+  width: 80%;
+  aspect-ratio: 1;
   z-index: 0;
   display: grid;
   place-items: center;
@@ -42,8 +45,8 @@
       rgb(255 255 255 / 0.07) 63%,
       transparent 68%
     ),
-    repeating-radial-gradient(circle, #0a0a0b 0 2px, #1a1a1d 2px 3px);
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06);
+    repeating-radial-gradient(circle, #18181b 0 2px, #303036 2px 3px);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.24), 0 0 1rem rgb(255 255 255 / 0.08);
   translate: 0 0;
   transition: translate 700ms var(--ease-spring);
 }
@@ -67,6 +70,7 @@
   position: relative;
   z-index: 1;
   height: 100%;
+  width: 88%;
   transform-style: preserve-3d;
   transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition:
@@ -118,11 +122,11 @@
 
 /* --- Наведение: пластинка выезжает и крутится --- */
 .release:is(:hover, :focus-within) .release__disc {
-  translate: 30% 0;
+  translate: 20% 0;
 }
 
 .release:is(:hover, :focus-within) .release__sleeve {
-  translate: -5% 0;
+  translate: 0 0;
 }
 
 .release:is(:hover, :focus-within) .release__type {
@@ -148,11 +152,11 @@
 /* на тач-устройствах пластинка всегда немного выглядывает */
 @media (hover: none) {
   .release__disc {
-    translate: 16% 0;
+    translate: 18% 0;
   }
 
   .release__sleeve {
-    translate: -3% 0;
+    translate: 0 0;
   }
 }
 

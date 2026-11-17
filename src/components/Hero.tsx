@@ -5,7 +5,7 @@ import { LiveLogo } from './LiveLogo';
 import { RollText, SplitWords } from './SplitText';
 import { site } from '../data/site';
 import { useInView } from '../hooks/useInView';
-import { useFinePointer, useReducedMotion } from '../hooks/useMediaQuery';
+import { useReducedMotion } from '../hooks/useMediaQuery';
 import { addEnergy, createSignal } from '../lib/signal';
 import './Hero.css';
 
@@ -14,7 +14,6 @@ export function Hero() {
   const [signal] = useState(createSignal);
   const inView = useInView(heroRef);
   const reduced = useReducedMotion();
-  const fine = useFinePointer();
   const last = useRef({ x: 0, y: 0, t: 0 });
   const parallaxRaf = useRef(0);
 
@@ -92,13 +91,6 @@ export function Hero() {
           </a>
         </div>
       </div>
-
-      {animate && (
-        <p className="hero__hint" aria-hidden="true">
-          <span className="hero__hint-dot" />
-          {fine ? 'кликни в любом месте — будет дроп' : 'тапни по экрану — будет дроп'}
-        </p>
-      )}
 
       <a className="hero__scroll" href="#about" aria-label="Перейти к разделу «О лейбле»">
         <svg className="hero__scroll-ring" viewBox="0 0 100 100" aria-hidden="true">

@@ -39,17 +39,28 @@ export function Artists() {
   // на тач-устройствах «играет» строка, пересекающая середину экрана
   useEffect(() => {
     if (fine) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          const i = rowRefs.current.indexOf(e.target as HTMLLIElement);
-          if (e.isIntersecting) setCentered(i);
-        });
-      },
-      { rootMargin: '-48% 0px -48% 0px' },
-    );
-    rowRefs.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const center = window.innerHeight / 2;
+      const index = rowRefs.current.findIndex((el) => {
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= center && rect.bottom >= center;
+      });
+      setCentered(index < 0 ? null : index);
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+    return () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      cancelAnimationFrame(raf);
+    };
   }, [fine]);
 
   const place = (e: PointerEvent<HTMLDivElement>, jump = false) => {

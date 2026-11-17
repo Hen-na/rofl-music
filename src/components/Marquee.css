@@ -15,6 +15,17 @@
   color: var(--color-black);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .marquee__band {
+    cursor: grab;
+    user-select: none;
+  }
+
+  .marquee__band.is-dragging {
+    cursor: grabbing;
+  }
+}
+
 .marquee__track {
   display: flex;
   width: max-content;

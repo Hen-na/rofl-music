@@ -1,0 +1,87 @@
+.marquee {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(1.5rem, 4vw, 3.5rem);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.marquee__band {
+  width: 120%;
+  margin-left: -10%;
+  padding-block: clamp(0.5rem, 1.2vw, 1rem);
+  transform: rotate(var(--tilt));
+  background: var(--color-accent);
+  color: var(--color-black);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee__group {
+  display: flex;
+  flex: none;
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  padding-right: clamp(1rem, 2.5vw, 2.5rem);
+  font-family: var(--font-display);
+  font-size: var(--fs-mega);
+  line-height: 1;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.marquee__bars {
+  flex: none;
+  width: 0.5em;
+  height: 0.5em;
+  fill: currentColor;
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+
+.marquee__item:hover .marquee__bars {
+  transform: scaleY(1.4) rotate(-8deg);
+}
+
+.marquee__text {
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* контур: прозрачная лента, бирюзовая обводка */
+.marquee--outline .marquee__band {
+  background: transparent;
+  border-block: var(--border-width) solid var(--color-border);
+  color: var(--color-secondary);
+}
+
+.marquee--outline .marquee__text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-secondary);
+}
+
+.marquee--outline .marquee__item:hover .marquee__text {
+  color: var(--color-secondary);
+}
+
+.marquee--teal .marquee__band {
+  background: var(--color-secondary);
+}
+
+.marquee--red .marquee__item:hover .marquee__text,
+.marquee--teal .marquee__item:hover .marquee__text {
+  color: var(--color-white);
+}
+
+/* без движения лента просто стоит и обрезается */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    transform: translateX(-10%);
+  }
+}

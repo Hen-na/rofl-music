@@ -1,0 +1,250 @@
+.releases {
+  display: grid;
+  gap: clamp(var(--space-7), 6vw, var(--space-9)) var(--grid-gap);
+}
+
+.releases__item {
+  position: relative;
+}
+
+.releases__item:hover,
+.releases__item:focus-within {
+  z-index: 2;
+}
+
+.release {
+  position: relative;
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* --- Сцена: пластинка за конвертом --- */
+.release__stage {
+  position: relative;
+  aspect-ratio: 1;
+  perspective: 1000px;
+}
+
+.release__disc {
+  position: absolute;
+  inset: 4%;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--color-black) 0 2.2%, transparent 2.6%),
+    conic-gradient(
+      from 0deg,
+      transparent 0 8%,
+      rgb(255 255 255 / 0.09) 13%,
+      transparent 18% 58%,
+      rgb(255 255 255 / 0.07) 63%,
+      transparent 68%
+    ),
+    repeating-radial-gradient(circle, #0a0a0b 0 2px, #1a1a1d 2px 3px);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06);
+  translate: 0 0;
+  transition: translate 700ms var(--ease-spring);
+}
+
+.release__label {
+  display: grid;
+  place-items: center;
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: clamp(0.75rem, 1.4vw, 1.1rem);
+  /* отверстие в центре */
+  -webkit-mask-image: radial-gradient(circle, transparent 0 7%, #000 7.5%);
+  mask-image: radial-gradient(circle, transparent 0 7%, #000 7.5%);
+}
+
+.release__sleeve {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 500ms var(--ease-out),
+    translate 700ms var(--ease-spring);
+}
+
+.release__cover {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  /* фон заглушки - палитра color.jpg */
+  background:
+    radial-gradient(circle at 70% 75%, var(--color-red-deep), transparent 60%),
+    linear-gradient(160deg, var(--color-surface), var(--color-red-dark));
+  box-shadow: 0 1.25rem 2.5rem rgb(0 0 0 / 0.5);
+}
+
+.release__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+/* точки внутри обложки смещаются глубже наклона - параллакс */
+.release__cover .dotfield {
+  transform: translate3d(calc(var(--mx, 0) * -22px), calc(var(--my, 0) * -22px), 0) scale(1.12);
+  transition: transform 500ms var(--ease-out);
+}
+
+/* стикер с типом релиза */
+.release__type {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.5rem;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 2px;
+  background: var(--color-secondary);
+  color: var(--color-black);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  transform: translateZ(40px) rotate(6deg);
+  transition: transform 500ms var(--ease-spring);
+}
+
+/* --- Наведение: пластинка выезжает и крутится --- */
+.release:is(:hover, :focus-within) .release__disc {
+  translate: 30% 0;
+}
+
+.release:is(:hover, :focus-within) .release__sleeve {
+  translate: -5% 0;
+}
+
+.release:is(:hover, :focus-within) .release__type {
+  transform: translateZ(60px) rotate(-8deg) scale(1.12);
+}
+
+.release:hover .release__cover img {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .release:is(:hover, :focus-within) .release__disc {
+    animation: spin 1.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* на тач-устройствах пластинка всегда немного выглядывает */
+@media (hover: none) {
+  .release__disc {
+    translate: 16% 0;
+  }
+
+  .release__sleeve {
+    translate: -3% 0;
+  }
+}
+
+/* --- Подпись --- */
+.release__title {
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.release__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* вся карточка кликабельна, если есть ссылка */
+.release__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.release__link svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-base) var(--ease-spring);
+}
+
+.release:hover .release__link svg {
+  color: var(--color-secondary);
+  transform: translate(3px, -3px);
+}
+
+.release__meta {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- Раскладка: асимметричный «ящик» --- */
+.releases__item:nth-child(even) {
+  width: 88%;
+  justify-self: end;
+}
+
+.releases__item:nth-child(odd) {
+  width: 92%;
+}
+
+@media (min-width: 640px) {
+  .releases {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .releases__item:nth-child(n) {
+    width: auto;
+    justify-self: stretch;
+  }
+
+  .releases__item:nth-child(even) {
+    margin-top: var(--space-9);
+  }
+}
+
+@media (min-width: 1000px) {
+  .releases {
+    grid-template-columns: repeat(12, 1fr);
+    row-gap: var(--space-7);
+  }
+
+  .releases__item:nth-child(4n + 1) {
+    grid-column: 1 / span 6;
+  }
+
+  .releases__item:nth-child(4n + 2) {
+    grid-column: 8 / span 4;
+    margin-top: var(--space-9);
+  }
+
+  .releases__item:nth-child(4n + 3) {
+    grid-column: 2 / span 4;
+    margin-top: calc(var(--space-8) * -1);
+  }
+
+  .releases__item:nth-child(4n + 4) {
+    grid-column: 7 / span 5;
+    margin-top: var(--space-6);
+  }
+
+  .releases__item:nth-child(4n + 1) .release__title {
+    font-size: var(--fs-xl);
+  }
+}

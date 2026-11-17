@@ -1,0 +1,78 @@
+/*
+ * .dotfield        — область (обрезка)
+ * .dotfield__shape — форма пятна/волны (маска), медленно дрейфует
+ * .dotfield__grid  — сами квадратные «LED-пиксели»
+ */
+.dotfield {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dotfield__shape {
+  position: absolute;
+  inset: -8%;
+  -webkit-mask-image: var(--shape);
+  mask-image: var(--shape);
+}
+
+.dotfield__grid {
+  position: absolute;
+  inset: 0;
+  background: var(--dot-color);
+  opacity: var(--dot-opacity);
+  -webkit-mask-image:
+    linear-gradient(90deg, #000 var(--dot-size), transparent var(--dot-size)),
+    linear-gradient(#000 var(--dot-size), transparent var(--dot-size));
+  -webkit-mask-size: var(--dot-step) var(--dot-step);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, #000 var(--dot-size), transparent var(--dot-size)),
+    linear-gradient(#000 var(--dot-size), transparent var(--dot-size));
+  mask-size: var(--dot-step) var(--dot-step);
+  mask-composite: intersect;
+}
+
+.dotfield--subtle .dotfield__grid {
+  opacity: var(--dot-opacity-subtle);
+}
+
+/* Волны сверху и снизу — по мотивам dots.jpg */
+.dotfield--wave {
+  --shape:
+    radial-gradient(ellipse 60% 20% at 20% 12%, #000 15%, transparent 70%),
+    radial-gradient(ellipse 70% 18% at 72% 22%, #000 10%, transparent 70%),
+    radial-gradient(ellipse 70% 20% at 28% 80%, #000 10%, transparent 70%),
+    radial-gradient(ellipse 60% 18% at 82% 90%, #000 15%, transparent 70%);
+}
+
+/* Горизонтальная полоса */
+.dotfield--band {
+  --shape: radial-gradient(ellipse 55% 45% at 50% 50%, #000 0%, transparent 75%);
+}
+
+/* Пятно для обложек-заглушек */
+.dotfield--cover {
+  --shape: radial-gradient(
+    circle at var(--focus-x, 50%) var(--focus-y, 50%),
+    #000 0%,
+    transparent 60%
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dotfield--wave .dotfield__shape,
+  .dotfield--band .dotfield__shape {
+    animation: dot-drift var(--dot-drift-duration) ease-in-out infinite alternate;
+  }
+}
+
+@keyframes dot-drift {
+  from {
+    transform: translate3d(-4%, -1%, 0);
+  }
+  to {
+    transform: translate3d(4%, 1%, 0);
+  }
+}

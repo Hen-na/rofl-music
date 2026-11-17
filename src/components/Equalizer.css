@@ -1,0 +1,36 @@
+.eq {
+  --eq-seg: 0.5rem;       /* высота сегмента */
+  --eq-gap: 0.3rem;       /* зазор между сегментами */
+  --eq-width: 1.75rem;    /* ширина столбика */
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: calc(12 * (var(--eq-seg) + var(--eq-gap)));
+}
+
+.eq__col {
+  width: var(--eq-width);
+  height: calc(var(--rows) * (var(--eq-seg) + var(--eq-gap)));
+  background: repeating-linear-gradient(
+    to top,
+    var(--eq-color, var(--color-accent)) 0 var(--eq-seg),
+    transparent var(--eq-seg) calc(var(--eq-seg) + var(--eq-gap))
+  );
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .eq__col {
+    animation: eq-bounce var(--eq-duration) steps(5, end) infinite alternate;
+    animation-delay: calc(var(--i) * -0.37s);
+  }
+}
+
+@keyframes eq-bounce {
+  from {
+    clip-path: inset(55% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}

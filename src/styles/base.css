@@ -1,0 +1,353 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+main:focus {
+  outline: none;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* --- Утилиты --- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: calc(var(--z-header) + 1);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-display);
+  text-transform: lowercase;
+}
+
+.eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+/* --- Кнопки --- */
+.button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-spring);
+}
+
+/* заливка «поднимается» как уровень на индикаторе */
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--button-fill, var(--color-secondary));
+  transform: translateY(101%);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.button:hover::before,
+.button:focus-visible::before {
+  transform: none;
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+.button--primary {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.button--primary:hover,
+.button--primary:focus-visible {
+  color: var(--color-black);
+}
+
+.button--ghost {
+  border-color: var(--color-border);
+  color: var(--color-text);
+  --button-fill: var(--color-text);
+}
+
+.button--ghost:hover,
+.button--ghost:focus-visible {
+  border-color: var(--color-text);
+  color: var(--color-black);
+}
+
+/* --- Перекатывающийся текст --- */
+.roll {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.roll > span {
+  grid-area: 1 / 1;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.roll__b {
+  transform: translateY(105%);
+}
+
+:is(a, button):is(:hover, :focus-visible) .roll__a {
+  transform: translateY(-105%);
+}
+
+:is(a, button):is(:hover, :focus-visible) .roll__b {
+  transform: none;
+}
+
+/* --- Разбитый на буквы текст --- */
+.chars {
+  display: inline;
+}
+
+.char {
+  display: inline-block;
+}
+
+@keyframes char-hop {
+  0%,
+  100% {
+    transform: none;
+  }
+  40% {
+    transform: translateY(-0.22em) scaleY(1.08);
+  }
+  70% {
+    transform: translateY(0.04em) scaleY(0.96);
+  }
+}
+
+/* --- Появление по секциям (класс .is-in ставит Section) --- */
+.word {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  vertical-align: top;
+}
+
+.word > span {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .word > span {
+    transform: translateY(110%) rotate(4deg);
+    transform-origin: left bottom;
+    transition: transform var(--duration-reveal) var(--ease-out);
+    transition-delay: calc(var(--wi, 0) * 70ms + var(--d, 0ms));
+  }
+
+  .is-in .word > span {
+    transform: none;
+  }
+
+  .rise {
+    opacity: 0;
+    transform: translateY(2.5rem);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out),
+      transform var(--duration-reveal) var(--ease-out);
+    transition-delay: var(--d, 0ms);
+  }
+
+  .is-in .rise {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Появление при прокрутке (без JS, где поддерживается) --- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Пасхалка --- */
+.party-toast {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-5);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  text-transform: lowercase;
+  pointer-events: none;
+  translate: -50% 0;
+  transform: translateY(200%) rotate(-4deg);
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+
+.party-toast.is-on {
+  transform: rotate(-4deg);
+}
+
+:root.is-party body {
+  animation: party-thump var(--beat) var(--ease-out) infinite;
+}
+
+@keyframes party-thump {
+  0% {
+    background-color: #1a0006;
+  }
+  100% {
+    background-color: var(--color-bg);
+  }
+}

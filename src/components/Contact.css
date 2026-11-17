@@ -1,0 +1,153 @@
+.contact__dots {
+  top: 30%;
+  right: 50%;
+  z-index: 0;
+}
+
+.contact .section__title .word:last-child > span {
+  color: var(--color-accent);
+}
+
+.contact__grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.contact__note {
+  max-width: 44ch;
+  font-size: var(--fs-md);
+  color: var(--color-text-muted);
+}
+
+.contact__mail {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.contact__email {
+  max-width: 100%;
+  font-size: clamp(1.4rem, 0.4rem + 6vw, 6.5rem);
+  line-height: 1;
+  color: var(--color-secondary);
+  text-transform: none;
+  overflow-wrap: anywhere;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.contact__email:hover {
+  color: var(--color-text);
+}
+
+/* при наведении по адресу пробегает «волна» */
+@media (prefers-reduced-motion: no-preference) {
+  .contact__email:is(:hover, :focus-visible) .char {
+    animation: char-hop 520ms var(--ease-out) both;
+    animation-delay: calc(var(--ci) * 22ms);
+  }
+}
+
+.contact__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-base) var(--ease-spring);
+}
+
+.contact__copy svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.contact__copy:hover {
+  border-color: var(--color-text);
+}
+
+.contact__copy:active {
+  transform: scale(0.94);
+}
+
+.contact__copy.is-done {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: var(--color-black);
+  transform: rotate(-3deg);
+}
+
+.contact__socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.contact__social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3rem;
+  padding: var(--space-2) var(--space-5);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    transform 450ms var(--ease-spring);
+}
+
+.contact__social svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+
+/* соцсети «подпрыгивают» с разным наклоном */
+.contact__social:hover,
+.contact__social:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-white);
+  transform: translateY(-4px) rotate(calc((var(--i, 0) - 1.5) * 2deg));
+}
+
+.contact__social:hover svg {
+  transform: rotate(45deg);
+}
+
+li:nth-child(odd) > .contact__social {
+  --i: 1;
+}
+
+li:nth-child(even) > .contact__social {
+  --i: 2;
+}
+
+@media (min-width: 900px) {
+  .contact__grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+  }
+
+  .contact__mail {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .contact__socials {
+    justify-content: flex-end;
+  }
+}

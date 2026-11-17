@@ -1,0 +1,232 @@
+.hero {
+  --px: 0;
+  --py: 0;
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: calc(var(--header-height) + var(--space-7)) var(--space-9);
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* «Тишина» под логотипом, чтобы он читался поверх точек */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 58% 30% at 42% 46%, var(--color-bg) 30%, transparent 100%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+.hero__inner > * {
+  min-width: 0;
+}
+
+.hero__title {
+  width: min(100%, 1080px);
+  transform: translate3d(calc(var(--px) * -14px), calc(var(--py) * -10px), 0);
+  transition: transform 900ms var(--ease-out);
+}
+
+.hero__logo {
+  width: 100%;
+  height: auto;
+}
+
+.hero__tagline {
+  max-width: 12ch;
+  font-size: clamp(1.85rem, 1rem + 4.5vw, 5.5rem);
+  line-height: var(--lh-tight);
+  color: var(--color-text);
+  transform: translate3d(calc(var(--px) * 22px), calc(var(--py) * 14px), 0);
+  transition: transform 900ms var(--ease-out);
+}
+
+/* второе слово - контурное, для ритма */
+.hero__tagline .word:nth-child(even) > span {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-text);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.hero__hint {
+  position: absolute;
+  left: var(--container-padding);
+  bottom: var(--space-6);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.hero__hint-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1px;
+  background: var(--color-accent);
+}
+
+.hero__scroll {
+  position: absolute;
+  right: var(--container-padding);
+  bottom: var(--space-6);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 50%;
+  transition: color var(--duration-fast) var(--ease-out), transform var(--duration-base) var(--ease-spring);
+}
+
+.hero__scroll > * {
+  grid-area: 1 / 1;
+}
+
+.hero__scroll-ring {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: currentColor;
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero__scroll svg:not(.hero__scroll-ring) {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.hero__scroll:hover {
+  color: var(--color-secondary);
+  transform: scale(1.08);
+}
+
+@media (min-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+
+  .hero__title {
+    grid-column: 1 / -1;
+  }
+
+  .hero__tagline {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    margin-top: calc(var(--space-6) * -1);
+    text-align: right;
+  }
+
+  .hero__actions {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+  }
+}
+
+@media (max-width: 599px) {
+  .hero__scroll {
+    width: 4.75rem;
+    height: 4.75rem;
+  }
+
+  .hero__hint {
+    max-width: 55%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* слоган «выезжает» по словам после загрузки логотипа */
+  .hero__tagline .word > span {
+    transform: none;
+    transition: none;
+    animation: word-up 900ms var(--ease-out) both;
+    animation-delay: calc(1100ms + var(--wi, 0) * 80ms);
+  }
+
+  .hero__actions,
+  .hero__hint,
+  .hero__scroll {
+    animation: hero-in var(--duration-slow) var(--ease-out) backwards;
+  }
+
+  .hero__actions {
+    animation-delay: 1300ms;
+  }
+
+  .hero__hint,
+  .hero__scroll {
+    animation-delay: 1700ms;
+  }
+
+  .hero__hint-dot {
+    animation: beat var(--beat) var(--ease-out) infinite;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .hero__scroll-ring {
+      animation: ring-spin linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+}
+
+@keyframes word-up {
+  from {
+    transform: translateY(110%) rotate(4deg);
+  }
+}
+
+@keyframes beat {
+  0% {
+    transform: scale(1.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

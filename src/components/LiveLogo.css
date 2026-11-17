@@ -1,0 +1,59 @@
+.live-logo {
+  display: block;
+  overflow: visible;
+  transform-origin: 30% 60%;
+}
+
+.live-logo__seg {
+  transition: opacity 60ms linear, fill 60ms linear;
+}
+
+.live-logo__seg[data-s='off'] {
+  opacity: 0.13;
+}
+
+.live-logo__seg[data-s='peak'] {
+  fill: var(--color-teal);
+}
+
+:root.is-party .live-logo__seg[data-s='peak'] {
+  fill: var(--color-white);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .live-logo--intro .live-logo__bar {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: logo-bar 600ms var(--ease-out) 350ms both;
+  }
+
+  .live-logo--intro .live-logo__word {
+    animation: logo-wipe 700ms var(--ease-in-out) 600ms both;
+  }
+
+  .live-logo--intro .live-logo__music {
+    animation: logo-music 600ms var(--ease-spring) 1150ms both;
+  }
+}
+
+@keyframes logo-bar {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes logo-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes logo-music {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}

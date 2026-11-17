@@ -89,12 +89,14 @@ export function Marquee({ items, tone = 'red', tilt = -3, reverse = false, speed
       }
     };
     const down = (event: PointerEvent) => {
-      if (!manual || event.pointerType !== 'mouse' || event.button !== 0) return;
+      const mouse = event.pointerType === 'mouse' && manual && event.button === 0;
+      const touch = event.pointerType === 'touch' && event.isPrimary;
+      if (!mouse && !touch) return;
       drag = { id: event.pointerId, x: event.clientX };
       velocity = 0;
       band.setPointerCapture(event.pointerId);
       band.classList.add('is-dragging');
-      event.preventDefault();
+      if (mouse) event.preventDefault();
     };
     const move = (event: PointerEvent) => {
       if (!drag || event.pointerId !== drag.id) return;

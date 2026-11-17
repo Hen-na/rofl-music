@@ -13,6 +13,7 @@
   transform: rotate(var(--tilt));
   background: var(--color-accent);
   color: var(--color-black);
+  touch-action: pan-y pinch-zoom;
 }
 
 @media (hover: hover) and (pointer: fine) {

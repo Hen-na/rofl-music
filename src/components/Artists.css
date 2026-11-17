@@ -21,6 +21,16 @@
   transition: color var(--duration-base) var(--ease-out);
 }
 
+button.artists__row {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 /* заливка - как поднятый фейдер микшера */
 .artists__row::before {
   content: '';

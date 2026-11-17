@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { motion, useMotionValue, useSpring, useTransform, useVelocity } from 'motion/react';
 import { Section } from './Section';
@@ -24,9 +24,8 @@ export function Artists() {
   const reduced = useReducedMotion();
   const [hovered, setHovered] = useState<number | null>(null);
   const [shown, setShown] = useState(0);
-  const [centered, setCentered] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
-  const rowRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   // превью едет за курсором на пружине и наклоняется от скорости - как карточка в руке
   const x = useMotionValue(0);
@@ -35,33 +34,6 @@ export function Artists() {
   const sy = useSpring(y, { stiffness: 280, damping: 26, mass: 0.6 });
   const velocity = useVelocity(sx);
   const rotate = useTransform(velocity, [-1600, 1600], [-14, 14], { clamp: true });
-
-  // на тач-устройствах «играет» строка, пересекающая середину экрана
-  useEffect(() => {
-    if (fine) return;
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const center = window.innerHeight / 2;
-      const index = rowRefs.current.findIndex((el) => {
-        if (!el) return false;
-        const rect = el.getBoundingClientRect();
-        return rect.top <= center && rect.bottom >= center;
-      });
-      setCentered(index < 0 ? null : index);
-    };
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
-    update();
-    return () => {
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
-      cancelAnimationFrame(raf);
-    };
-  }, [fine]);
 
   const place = (e: PointerEvent<HTMLDivElement>, jump = false) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -96,7 +68,7 @@ export function Artists() {
       >
         <ol className="artists">
           {artists.map((artist, i) => {
-            const isActive = fine ? hovered === i : centered === i;
+            const isActive = fine ? hovered === i : selected === i;
             const content = (
               <>
                 <span className="artists__index" aria-hidden="true">
@@ -114,12 +86,10 @@ export function Artists() {
             return (
               <li
                 key={artist.id}
-                ref={(el) => {
-                  rowRefs.current[i] = el;
-                }}
                 className={`artists__item rise${isActive ? ' is-active' : ''}`}
                 style={{ '--d': `${i * 90}ms` } as CSSProperties}
                 onPointerEnter={fine ? () => activate(i) : undefined}
+                onClick={!fine ? () => setSelected((current) => current === i ? null : i) : undefined}
               >
                 {artist.href ? (
                   <a
@@ -133,7 +103,15 @@ export function Artists() {
                     {content}
                   </a>
                 ) : (
-                  <div className="artists__row">{content}</div>
+                  <button
+                    type="button"
+                    className="artists__row"
+                    aria-pressed={!fine ? isActive : undefined}
+                    onFocus={fine ? () => activate(i) : undefined}
+                    onBlur={fine ? () => setHovered(null) : undefined}
+                  >
+                    {content}
+                  </button>
                 )}
               </li>
             );

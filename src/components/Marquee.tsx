@@ -31,7 +31,7 @@ function Bars() {
 }
 
 /**
- * Наклонная бегущая строка. Скорость и направление зависят от прокрутки,
+ * Наклонная бегущая строка. На устройствах с мышью скорость и направление зависят от прокрутки,
  * при наведении лента плавно останавливается. Декоративная — скрыта от экранных чтецов.
  */
 export function Marquee({ items, tone = 'red', tilt = -3, reverse = false, speed = 70 }: MarqueeProps) {
@@ -129,9 +129,8 @@ export function Marquee({ items, tone = 'red', tilt = -3, reverse = false, speed
       const sy = window.scrollY;
       const ds = sy - lastScroll;
       lastScroll = sy;
-      const interactive = fine || tone !== 'outline';
-      if (interactive && Math.abs(ds) > 0.5) scrollDir = ds > 0 ? 1 : -1;
-      boost = boost * 0.9 + (interactive ? Math.min(80, Math.abs(ds)) : 0) * 0.1;
+      if (fine && Math.abs(ds) > 0.5) scrollDir = ds > 0 ? 1 : -1;
+      boost = fine ? boost * 0.9 + Math.min(80, Math.abs(ds)) * 0.1 : 0;
 
       const target = hover || drag || Math.abs(pending) > 0.1 ? 0 : baseDir * scrollDir * (speed + boost * 40) * (isParty() ? 4 : 1);
       velocity += (target - velocity) * (1 - Math.exp(-5 * dt));
